@@ -5,3 +5,4 @@ dist/
 
 # source footage — delivery encodes live in public/
 footage/
+.vercel
