@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KESSLER — a co-op extraction shooter</title>
+  <meta name="description" content="Four go up. What comes down is negotiable. KESSLER is a co-op extraction shooter set aboard a derelict orbital station." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23040405'/%3E%3Crect x='7' y='2' width='2' height='12' fill='%23c8ff1a'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,100..900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+  <!-- HERO — scroll-scrubbed corridor push -->
+  <section class="hero" id="hero" aria-label="Kessler — title">
+    <canvas class="hero__canvas" aria-hidden="true"></canvas>
+    <div class="hero__poster" aria-hidden="true"></div>
+    <div class="hero__title-wrap">
+      <h1 class="hero__title display-ghost">KESSLER</h1>
+      <p class="hero__sub mono-line">[04 OPERATIVES] — CO-OP EXTRACTION</p>
+    </div>
+    <p class="hero__loader mono-line" aria-live="polite">[ESTABLISHING LINK — 0%]</p>
+    <p class="hero__hint mono-line" aria-hidden="true">[SCROLL TO ADVANCE]</p>
+  </section>
+
+  <!-- OPERATIVES — select rows -->
+  <section class="ops" id="operatives" aria-label="Operatives">
+    <div class="ops__bg" aria-hidden="true">
+      <video class="ops__video" data-src="/media/op1.mp4" muted playsinline preload="none"></video>
+      <video class="ops__video" data-src="/media/op2.mp4" muted playsinline preload="none"></video>
+      <video class="ops__video" data-src="/media/op3.mp4" muted playsinline preload="none"></video>
+      <video class="ops__video" data-src="/media/op4.mp4" muted playsinline preload="none"></video>
+    </div>
+    <p class="ops__tag mono-line">[04 OPERATIVES — SELECT]</p>
+    <ul class="ops__list">
+      <li class="ops__row" data-op="0">
+        <h2 class="ops__name display-ghost">BULWARK</h2>
+        <p class="ops__spec"><span class="reveal-inner mono-line">ROLE: BREACHER — LOADOUT: MASS DRIVER · PLATE RIG — FLAW: TOO SLOW TO RUN</span></p>
+      </li>
+      <li class="ops__row" data-op="1">
+        <h2 class="ops__name display-ghost">SABLE</h2>
+        <p class="ops__spec"><span class="reveal-inner mono-line">ROLE: PATHFINDER — LOADOUT: SIDEARM · GRAPPLE LINE — FLAW: NEVER WAITS FOR ORDERS</span></p>
+      </li>
+      <li class="ops__row" data-op="2">
+        <h2 class="ops__name display-ghost">MOTH</h2>
+        <p class="ops__spec"><span class="reveal-inner mono-line">ROLE: SALVAGE TECH — LOADOUT: CUTTING TORCH · TETHER DRONE — FLAW: WON'T LEAVE ANYTHING BEHIND</span></p>
+      </li>
+      <li class="ops__row" data-op="3">
+        <h2 class="ops__name display-ghost">VESPER</h2>
+        <p class="ops__spec"><span class="reveal-inner mono-line">ROLE: SIGNALS — LOADOUT: JAMMER · KNIFE — FLAW: NOBODY HAS SEEN THEIR FACE</span></p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- THE STATION — pinned horizontal tour -->
+  <section class="tour" id="station" aria-label="Station Vantage-9">
+    <div class="tour__track">
+      <div class="tour__panel" data-plate="0">
+        <div class="tour__media"><video class="tour__video" data-src="/media/plate1.mp4" muted loop playsinline preload="none"></video></div>
+        <p class="tour__caption mono-line" data-text="[LOC / HYDRO-02] — THE GARDEN OUTLIVED THE CREW."></p>
+      </div>
+      <div class="tour__panel" data-plate="1">
+        <div class="tour__media"><video class="tour__video" data-src="/media/plate2.mp4" muted loop playsinline preload="none"></video></div>
+        <p class="tour__caption mono-line" data-text="[LOC / CARGO-07] — EVERYTHING OF VALUE IS STILL ABOARD. SO IS WHAT KEPT IT."></p>
+      </div>
+      <div class="tour__panel" data-plate="2">
+        <div class="tour__media"><video class="tour__video" data-src="/media/plate3.mp4" muted loop playsinline preload="none"></video></div>
+        <p class="tour__caption mono-line" data-text="[LOC / OBS DECK] — THE PLANET STILL RISES ON SCHEDULE. NOBODY WATCHES."></p>
+      </div>
+    </div>
+    <p class="tour__tag mono-line" aria-hidden="true">[STATION VANTAGE-9 — SIGNAL LOST]</p>
+  </section>
+
+  <!-- WISHLIST — closing frame -->
+  <section class="close" id="wishlist" aria-label="Wishlist">
+    <p class="close__stamp mono-line reveal"><span class="reveal-inner">KESSLER — KSR/09</span></p>
+    <h2 class="close__line reveal"><span class="reveal-inner">FOUR GO UP. WHAT COMES DOWN IS NEGOTIABLE.</span></h2>
+    <a class="close__cta" href="https://store.steampowered.com/" target="_blank" rel="noopener">WISHLIST ON STEAM</a>
+  </section>
+
+  <footer class="footer">
+    <p class="mono-line">KESSLER © 2026 ECLIPTIC ARC — [SIGNAL LOST]</p>
+  </footer>
+
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
