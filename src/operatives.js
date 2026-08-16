@@ -57,10 +57,17 @@ export function initOperatives({ reducedMotion, touch }) {
     return;
   }
 
-  // ---- desktop: hover select + cursor scrub ----
+  // ---- desktop: pointer-position-driven select + cursor scrub ----
+  // mouseenter/mouseleave go stale when smooth scroll moves the rows under a
+  // stationary cursor — the browser only re-evaluates hover on pointer
+  // movement, and Chrome can drop the enter event entirely after the shift.
+  // So the active row is recomputed from the cursor position on every
+  // mousemove AND every scroll, never from boundary events.
   let activeRow = null;
   let targetTime = 0;
   let holdTimer = null;
+  let mouseX = -1;
+  let mouseY = -1;
 
   // one rAF lerp drives whichever clip is active
   gsap.ticker.add(() => {
@@ -71,35 +78,57 @@ export function initOperatives({ reducedMotion, touch }) {
     if (Math.abs(t - video.currentTime) > 0.005) video.currentTime = t;
   });
 
-  rows.forEach((row) => {
+  function seekFromCursor() {
+    if (!activeRow) return;
+    const video = videos[activeRow.dataset.op];
+    if (!video.duration) return;
+    const rect = activeRow.getBoundingClientRect();
+    const x = (mouseX - rect.left) / rect.width;
+    targetTime = Math.max(0, Math.min(1, x)) * (video.duration - 0.05);
+  }
+
+  function activate(row) {
+    clearTimeout(holdTimer);
+    activeRow = row;
     const video = videos[row.dataset.op];
     const spec = row.querySelector(".ops__spec .reveal-inner");
+    row.classList.add("is-active");
+    section.classList.add("ops--engaged");
+    video.pause();
+    gsap.killTweensOf(video);
+    gsap.to(video, { autoAlpha: 1, duration: 0.55, ease: ENTER });
+    // slow on the reveal
+    gsap.killTweensOf(spec);
+    gsap.to(spec, { y: 0, duration: 0.75, ease: ENTER });
+    seekFromCursor();
+  }
 
-    row.addEventListener("mouseenter", () => {
-      clearTimeout(holdTimer);
-      if (activeRow && activeRow !== row) release(activeRow, true);
-      activeRow = row;
-      row.classList.add("is-active");
-      section.classList.add("ops--engaged");
-      video.pause();
-      gsap.killTweensOf(video);
-      gsap.to(video, { autoAlpha: 1, duration: 0.55, ease: ENTER });
-      // slow on the reveal
-      gsap.killTweensOf(spec);
-      gsap.to(spec, { y: 0, duration: 0.75, ease: ENTER });
-    });
+  function syncActive() {
+    if (mouseX < 0) return;
+    const el = document.elementFromPoint(mouseX, mouseY);
+    const row = el && el.closest ? el.closest(".ops__row") : null;
+    if (row === activeRow) return;
+    if (activeRow) release(activeRow, !!row);
+    if (row) activate(row);
+  }
 
-    row.addEventListener("mousemove", (e) => {
-      if (activeRow !== row || !video.duration) return;
-      const rect = row.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      targetTime = Math.max(0, Math.min(1, x)) * (video.duration - 0.05);
-    });
+  window.addEventListener(
+    "mousemove",
+    (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      syncActive();
+      seekFromCursor();
+    },
+    { passive: true }
+  );
 
-    row.addEventListener("mouseleave", () => {
-      if (activeRow !== row) return;
-      release(row, false);
-    });
+  // smooth scroll slides rows under a stationary cursor — re-resolve
+  window.addEventListener("scroll", syncActive, { passive: true });
+
+  document.documentElement.addEventListener("mouseleave", () => {
+    mouseX = mouseY = -1;
+    if (activeRow) release(activeRow, false);
   });
 
   function release(row, immediate) {

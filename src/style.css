@@ -57,6 +57,28 @@ body {
 .reveal { clip-path: inset(0 0 0 0); overflow: clip; }
 .reveal .reveal-inner { display: inline-block; transform: translateY(115%); }
 
+/* ---------- cursor ---------- */
+
+.has-cursor,
+.has-cursor * { cursor: none !important; }
+
+.cursor {
+  position: fixed; top: 0; left: 0; z-index: 60;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: difference;
+  transition: opacity 0.35s ease;
+}
+.cursor--visible { opacity: 1; }
+
+.cursor__reticle {
+  display: block;
+  width: 34px; height: 34px;
+  margin: -17px 0 0 -17px;
+  transition: transform 0.5s var(--ease-in-out-expo-ish);
+}
+.cursor--hot .cursor__reticle { transform: scale(1.5) rotate(45deg); }
+
 /* ---------- grain + vignette ---------- */
 
 .grain {

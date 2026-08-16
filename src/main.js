@@ -6,6 +6,7 @@ import { initHero } from "./hero.js";
 import { initOperatives } from "./operatives.js";
 import { initTour } from "./tour.js";
 import { initClose } from "./close.js";
+import { initCursor } from "./cursor.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,6 +36,7 @@ initHero({ lenis, reducedMotion, touch });
 initOperatives({ reducedMotion, touch });
 initTour({ reducedMotion });
 initClose({ reducedMotion });
+initCursor({ reducedMotion, touch });
 
 // The display face loads late and the ops rows are set in it at 9.5vw —
 // remeasure every trigger once fonts are in.
